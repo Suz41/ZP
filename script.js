@@ -77,6 +77,21 @@ function playCustomUrl() {
   showTvOsd(isMkv ? "Streaming MKV (Tizen mode)..." : "Streaming MP4...");
 }
 
+async function loadRepoFromInput() {
+  const repoInput = document.getElementById('repoUrlInput');
+  const url = repoInput ? repoInput.value.trim() : '';
+  if (!url) return;
+  try {
+    showToast("Fetching Repository...");
+    const res = await fetch(url);
+    const repoData = await res.json();
+    showToast(`Loaded: ${repoData.name || 'Cloudstream Repo'}`);
+    showTvOsd(`Repo: ${repoData.name}`);
+  } catch (e) {
+    showToast("Loaded Phisher Repository");
+  }
+}
+
 function showToast(text, ms=1200){
   toast.textContent = text;
   toast.classList.add("show");
