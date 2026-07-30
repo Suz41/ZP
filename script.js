@@ -39,19 +39,83 @@ let tvOsdTimeout;
 function showTab(tabName) {
   document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
   document.getElementById('tab-home').style.display = 'none';
+  document.getElementById('tab-search').style.display = 'none';
   document.getElementById('tab-player').style.display = 'none';
   document.getElementById('tab-settings').style.display = 'none';
 
   if (tabName === 'home') {
     document.getElementById('tab-home').style.display = 'block';
     document.querySelectorAll('.nav-btn')[0].classList.add('active');
+  } else if (tabName === 'search') {
+    document.getElementById('tab-search').style.display = 'block';
+    document.querySelectorAll('.nav-btn')[1].classList.add('active');
+    triggerSearch();
   } else if (tabName === 'player') {
     document.getElementById('tab-player').style.display = 'block';
-    document.querySelectorAll('.nav-btn')[1].classList.add('active');
+    document.querySelectorAll('.nav-btn')[2].classList.add('active');
   } else if (tabName === 'settings') {
     document.getElementById('tab-settings').style.display = 'block';
-    document.querySelectorAll('.nav-btn')[2].classList.add('active');
+    document.querySelectorAll('.nav-btn')[3].classList.add('active');
   }
+}
+
+let activePluginSearchData = [];
+
+function handleSearch(query) {
+  const searchGrid = document.getElementById('searchGrid');
+  const searchResultTitle = document.getElementById('searchResultTitle');
+  if (!searchGrid) return;
+
+  const q = (query || '').toLowerCase().trim();
+  searchGrid.innerHTML = "";
+
+  const allItems = [...episodes, ...activePluginSearchData];
+  const filtered = q ? allItems.filter(item => {
+    const title = (item.title || item.name || '').toLowerCase();
+    const desc = (item.desc || item.description || '').toLowerCase();
+    return title.includes(q) || desc.includes(q);
+  }) : allItems;
+
+  searchResultTitle.textContent = q ? `Search Results (${filtered.length})` : `All Content & Extensions (${filtered.length})`;
+
+  filtered.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.className = "media-card";
+    const title = item.title || item.name;
+    const poster = item.poster || item.iconUrl || `https://picsum.photos/300/450?random=${index + 10}`;
+    const desc = item.desc || (item.tvTypes ? item.tvTypes.join(', ') : 'Cloudstream Provider');
+
+    card.innerHTML = `
+      <img class="card-poster" src="${poster}" alt="${title}" onerror="this.src='https://picsum.photos/300/450?random=${index}'" loading="lazy" />
+      <div class="card-body">
+        <div class="card-title">${title}</div>
+        <div class="card-sub">${desc}</div>
+      </div>
+    `;
+
+    card.addEventListener("click", () => {
+      if (item.src) {
+        showTab('player');
+        player.pause();
+        const isMkv = item.src.toLowerCase().includes('.mkv');
+        const isTizen = /Tizen/i.test(navigator.userAgent);
+        const mimeType = isMkv ? (isTizen ? 'video/mp4' : 'video/x-matroska') : 'video/mp4';
+        player.src({ type: mimeType, src: item.src });
+        player.play();
+        showTvOsd(`Playing: ${title}`);
+      } else {
+        showToast(`Extension: ${title}`);
+        showTvOsd(`Extension: ${title}`);
+      }
+    });
+
+    searchGrid.appendChild(card);
+  });
+}
+
+function triggerSearch() {
+  const input = document.getElementById('searchInput');
+  handleSearch(input ? input.value : '');
 }
 
 function playFeatured() {
@@ -103,6 +167,7 @@ async function loadRepoFromInput() {
 }
 
 function renderRepoPlugins(repoName, plugins) {
+  activePluginSearchData = plugins || [];
   if (!mediaGrid) return;
   mediaGrid.innerHTML = "";
 

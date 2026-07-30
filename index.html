@@ -17,6 +17,7 @@
     </div>
     <nav class="nav-tabs">
       <button class="nav-btn active" onclick="showTab('home')">Home</button>
+      <button class="nav-btn" onclick="showTab('search')">Search</button>
       <button class="nav-btn" onclick="showTab('player')">Player</button>
       <button class="nav-btn" onclick="showTab('settings')">Settings</button>
     </nav>
@@ -39,6 +40,23 @@
       </div>
 
       <div class="media-grid" id="mediaGrid"></div>
+    </div>
+
+    <!-- TAB: SEARCH -->
+    <div id="tab-search" style="display:none">
+      <div class="sync-controls" style="flex-direction:column;align-items:flex-start;margin-bottom:24px">
+        <div class="sync-title" style="font-size:1.2rem;margin-bottom:10px">Search Movies & Cloudstream Extensions</div>
+        <div style="display:flex;gap:10px;width:100%">
+          <input type="text" id="searchInput" placeholder="Search by title, provider, genre, language..." oninput="handleSearch(this.value)" style="flex:1;background:var(--bg);border:1px solid var(--border);color:#fff;padding:12px 16px;border-radius:10px;font-size:0.95rem;outline:none;" />
+          <button class="sync-btn" style="background:var(--accent-gradient)" onclick="triggerSearch()">Search</button>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <span id="searchResultTitle">Search Results</span>
+      </div>
+
+      <div class="media-grid" id="searchGrid"></div>
     </div>
 
     <!-- TAB: PLAYER -->
