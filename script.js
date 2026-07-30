@@ -1,4 +1,5 @@
 const episodes = [
+  { title:"Spider-Man: Brand New Day (2026)", desc:"Action / Sci-Fi • Multi-Line • ESub", time:"2h 15m", src:"https://cdn.fsl-buckets.life/SpiderMan-Brand.New.Day.2026.HQ.1080p.V3-HDTC.Multi-LiNE.HC-ESub.x264-HDHub4u.Ms.mkv?token=3535db4975bbfc8455b2aceb69a00bfd_118", cc:"", poster:"https://picsum.photos/300/450?random=9" },
   { title:"Tu.Yaa.Main (2026)", desc:"The Spirit of the Beehive", time:"1h 31m", src:"/movie1.mp4", cc:"/movie1.vtt", poster:"https://picsum.photos/300/450?random=1" },
   { title:"John Wick (2014)", desc:"Bhagyalakshmi", time:"1h 57m", src:"/movie2.mp4", cc:"/movie2.vtt", poster:"https://picsum.photos/300/450?random=2" },
   { title:"Sadak (1991)", desc:"Action / Drama", time:"1h 49m", src:"/movie3.mp4", cc:"/movie3.vtt", poster:"https://picsum.photos/300/450?random=3" },
