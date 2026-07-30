@@ -1,13 +1,13 @@
 const episodes = [
-  { title:"Spider-Man: Brand New Day (2026)", desc:"Action / Sci-Fi • Multi-Line • ESub", time:"2h 15m", src:"https://cdn.fsl-buckets.life/SpiderMan-Brand.New.Day.2026.HQ.1080p.V3-HDTC.Multi-LiNE.HC-ESub.x264-HDHub4u.Ms.mkv?token=3535db4975bbfc8455b2aceb69a00bfd_118", cc:"", poster:"https://picsum.photos/300/450?random=9" },
-  { title:"Tu.Yaa.Main (2026)", desc:"The Spirit of the Beehive", time:"1h 31m", src:"/movie1.mp4", cc:"/movie1.vtt", poster:"https://picsum.photos/300/450?random=1" },
-  { title:"John Wick (2014)", desc:"Bhagyalakshmi", time:"1h 57m", src:"/movie2.mp4", cc:"/movie2.vtt", poster:"https://picsum.photos/300/450?random=2" },
-  { title:"Sadak (1991)", desc:"Action / Drama", time:"1h 49m", src:"/movie3.mp4", cc:"/movie3.vtt", poster:"https://picsum.photos/300/450?random=3" },
-  { title:"The Chronicles of Narnia", desc:"Fantasy / Adventure", time:"1h 26m", src:"/movie4.mp4", cc:"/movie4.vtt", poster:"https://picsum.photos/300/450?random=4" },
-  { title:"ABCD (2013)", desc:"Dance / Drama", time:"1h 38m", src:"/movie5.mp4", cc:"/movie5.vtt", poster:"https://picsum.photos/300/450?random=5" },
-  { title:"Harry Potter Hallows P2", desc:"Magic / Fantasy", time:"1h 39m", src:"/movie6.mp4", cc:"/movie6.vtt", poster:"https://picsum.photos/300/450?random=6" },
-  { title:"Jugnuma The Fable (2025)", desc:"Thriller / Mystery", time:"2h 00m", src:"/movie7.mp4", cc:"/movie7.vtt", poster:"https://picsum.photos/300/450?random=7" },
-  { title:"Harry Potter Deathly Hallows", desc:"Fantasy / Magic", time:"1h 49m", src:"/movie8.mp4", cc:"/movie8.vtt", poster:"https://picsum.photos/300/450?random=8" }
+  { title:"Spider-Man: Brand New Day (2026)", desc:"Action / Sci-Fi • Multi-Line • ESub", provider:"HDHub4u", time:"2h 15m", src:"https://cdn.fsl-buckets.life/SpiderMan-Brand.New.Day.2026.HQ.1080p.V3-HDTC.Multi-LiNE.HC-ESub.x264-HDHub4u.Ms.mkv?token=3535db4975bbfc8455b2aceb69a00bfd_118", cc:"", poster:"https://picsum.photos/300/450?random=9" },
+  { title:"Tu.Yaa.Main (2026)", desc:"The Spirit of the Beehive • Hindi NF", provider:"HDHub4u", time:"1h 31m", src:"/movie1.mp4", cc:"/movie1.vtt", poster:"https://picsum.photos/300/450?random=1" },
+  { title:"John Wick (2014)", desc:"Bhagyalakshmi • Action", provider:"AllMovieLand", time:"1h 57m", src:"/movie2.mp4", cc:"/movie2.vtt", poster:"https://picsum.photos/300/450?random=2" },
+  { title:"Sadak (1991)", desc:"Action / Drama", provider:"HDHub4u", time:"1h 49m", src:"/movie3.mp4", cc:"/movie3.vtt", poster:"https://picsum.photos/300/450?random=3" },
+  { title:"The Chronicles of Narnia", desc:"Fantasy / Adventure", provider:"AllMovieLand", time:"1h 26m", src:"/movie4.mp4", cc:"/movie4.vtt", poster:"https://picsum.photos/300/450?random=4" },
+  { title:"ABCD (2013)", desc:"Dance / Drama", provider:"HDHub4u", time:"1h 38m", src:"/movie5.mp4", cc:"/movie5.vtt", poster:"https://picsum.photos/300/450?random=5" },
+  { title:"Harry Potter Hallows P2", desc:"Magic / Fantasy", provider:"AllWish", time:"1h 39m", src:"/movie6.mp4", cc:"/movie6.vtt", poster:"https://picsum.photos/300/450?random=6" },
+  { title:"Jugnuma The Fable (2025)", desc:"Thriller / Mystery • HDHub4u", provider:"HDHub4u", time:"2h 00m", src:"/movie7.mp4", cc:"/movie7.vtt", poster:"https://picsum.photos/300/450?random=7" },
+  { title:"Harry Potter Deathly Hallows", desc:"Fantasy / Magic", provider:"Anichi", time:"1h 49m", src:"/movie8.mp4", cc:"/movie8.vtt", poster:"https://picsum.photos/300/450?random=8" }
 ];
 
 const K_EP="st5_current_episode";
@@ -73,7 +73,9 @@ function handleSearch(query) {
   const filtered = q ? allItems.filter(item => {
     const title = (item.title || item.name || '').toLowerCase();
     const desc = (item.desc || item.description || '').toLowerCase();
-    return title.includes(q) || desc.includes(q);
+    const provider = (item.provider || '').toLowerCase();
+    const srcUrl = (item.src || item.url || '').toLowerCase();
+    return title.includes(q) || desc.includes(q) || provider.includes(q) || srcUrl.includes(q);
   }) : allItems;
 
   searchResultTitle.textContent = q ? `Search Results (${filtered.length})` : `All Content & Extensions (${filtered.length})`;
