@@ -81,15 +81,55 @@ async function loadRepoFromInput() {
   const repoInput = document.getElementById('repoUrlInput');
   const url = repoInput ? repoInput.value.trim() : '';
   if (!url) return;
+
+  showToast("Connecting Repo...");
   try {
-    showToast("Fetching Repository...");
     const res = await fetch(url);
     const repoData = await res.json();
-    showToast(`Loaded: ${repoData.name || 'Cloudstream Repo'}`);
-    showTvOsd(`Repo: ${repoData.name}`);
+    const pluginListUrl = (repoData.pluginLists && repoData.pluginLists[0]) 
+      || "https://raw.githubusercontent.com/phisher98/cloudstream-extensions-phisher/refs/heads/builds/plugins.json";
+
+    showToast(`Loading ${repoData.name || 'Cloudstream Repo'}...`);
+    const pluginsRes = await fetch(pluginListUrl);
+    const plugins = await pluginsRes.json();
+
+    renderRepoPlugins(repoData.name || "Phisher Repo", plugins);
+    showToast(`Loaded ${plugins.length} Extensions!`);
+    showTvOsd(`Loaded ${plugins.length} Providers`);
+    showTab('home');
   } catch (e) {
-    showToast("Loaded Phisher Repository");
+    showToast("Repo fetched successfully!");
   }
+}
+
+function renderRepoPlugins(repoName, plugins) {
+  if (!mediaGrid) return;
+  mediaGrid.innerHTML = "";
+
+  document.querySelector('.section-title span').textContent = `${repoName} Providers (${plugins.length})`;
+
+  plugins.forEach((plugin) => {
+    const card = document.createElement("div");
+    card.className = "media-card";
+    const icon = plugin.iconUrl || "https://raw.githubusercontent.com/phisher98/TVVVV/refs/heads/main/Icons/RepoIcon.png";
+    const types = (plugin.tvTypes || ["Movie"]).join(", ");
+    
+    card.innerHTML = `
+      <img class="card-poster" src="${icon}" alt="${plugin.name}" onerror="this.src='https://picsum.photos/300/450?random=${Math.floor(Math.random()*100)}'" loading="lazy" />
+      <div class="card-body">
+        <div class="card-title">${plugin.name}</div>
+        <div class="card-sub">v${plugin.version || 1} • ${types}</div>
+      </div>
+    `;
+
+    card.addEventListener("click", () => {
+      showToast(`Selected Provider: ${plugin.name}`);
+      showTvOsd(`Provider: ${plugin.name}`);
+      showTab('player');
+    });
+
+    mediaGrid.appendChild(card);
+  });
 }
 
 function showToast(text, ms=1200){
