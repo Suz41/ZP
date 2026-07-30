@@ -58,6 +58,22 @@ function playFeatured() {
   loadEpisode(0, true);
 }
 
+function playCustomUrl() {
+  const urlInput = document.getElementById('customUrlInput');
+  if (!urlInput || !urlInput.value.trim()) {
+    showToast("Please enter a valid video URL");
+    return;
+  }
+  const url = urlInput.value.trim();
+  showTab('player');
+  player.pause();
+  const isMkv = url.toLowerCase().includes('.mkv');
+  const mimeType = isMkv ? 'video/x-matroska' : 'video/mp4';
+  player.src({ type: mimeType, src: url });
+  player.play();
+  showTvOsd(isMkv ? "Streaming MKV..." : "Streaming MP4...");
+}
+
 function showToast(text, ms=1200){
   toast.textContent = text;
   toast.classList.add("show");
