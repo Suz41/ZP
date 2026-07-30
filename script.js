@@ -223,15 +223,16 @@ function handleKey(e){
   const code = e.keyCode || e.which || 0;
   const key = (e.key || "").toString();
 
-  // Left Arrow (37) / Right Arrow (39) / D-pad Seek (10s backward / forward)
-  if (code === 37 || key === "ArrowLeft" || key === "j" || key === "J") {
+  // Left Arrow (37), Tizen Rewind (412), MediaRewind, J key (-10s)
+  if (code === 37 || code === 412 || key === "ArrowLeft" || key === "MediaRewind" || key === "j" || key === "J") {
     e.preventDefault();
     const cur = player.currentTime() || 0;
     player.currentTime(Math.max(0, cur - 10));
     showTvOsd("⏪ -10s");
     return;
   }
-  if (code === 39 || key === "ArrowRight" || key === "l" || key === "L") {
+  // Right Arrow (39), Tizen FastForward (417), MediaFastForward, L key (+10s)
+  if (code === 39 || code === 417 || key === "ArrowRight" || key === "MediaFastForward" || key === "l" || key === "L") {
     e.preventDefault();
     const cur = player.currentTime() || 0;
     const dur = player.duration() || 0;
@@ -240,8 +241,8 @@ function handleKey(e){
     return;
   }
 
-  // Space / Enter / OK button Play-Pause toggle
-  if (code === 32 || code === 13 || key === " " || key === "Enter") {
+  // Space (32), Enter/OK (13), Tizen Play (19), Pause (19), PlayPause (10252)
+  if (code === 32 || code === 13 || code === 19 || code === 10252 || key === " " || key === "Enter" || key === "MediaPlayPause" || key === "MediaPlay" || key === "MediaPause") {
     if (document.getElementById('tab-player').style.display !== 'none') {
       e.preventDefault();
       if (player.paused()) { player.play(); showTvOsd("▶ Play"); }
