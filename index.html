@@ -3,69 +3,100 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Stranger Things 5 — Player</title>
+  <title>Cloudstream Player — ZP</title>
 
   <link href="https://vjs.zencdn.net/8.23.4/video-js.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <img class="header-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Stranger_Things_logo.svg/2560px-Stranger_Things_logo.svg.png" alt="Stranger Things">
+    <div class="brand">
+      <div class="brand-icon">CS</div>
+      Cloudstream ZP
+    </div>
+    <nav class="nav-tabs">
+      <button class="nav-btn active" onclick="showTab('home')">Home</button>
+      <button class="nav-btn" onclick="showTab('player')">Player</button>
+      <button class="nav-btn" onclick="showTab('settings')">Settings</button>
+    </nav>
   </header>
 
   <main>
-    <div class="video-wrapper">
-      <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" data-setup='{"fluid":true}'>
-        <source src="/movie1.mp4" type="video/mp4" />
-        <p class="vjs-no-js">Enable JavaScript to watch the video.</p>
-      </video>
+    <!-- TAB: HOME -->
+    <div id="tab-home">
+      <div class="hero-banner" id="heroBanner">
+        <div class="hero-title" id="heroTitle">Featured Movie</div>
+        <div class="hero-meta" id="heroMeta">1080p • Multi Audio • ESub</div>
+        <div class="hero-actions">
+          <button class="sync-btn" style="background:var(--accent)" onclick="playFeatured()">Play Now</button>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <span>Trending Content</span>
+        <span style="font-size:0.8rem;color:var(--text-muted);font-weight:normal">Cloudstream Extension Grid</span>
+      </div>
+
+      <div class="media-grid" id="mediaGrid"></div>
     </div>
 
-    <!-- Subtitle Sync UI -->
-    <div class="sync-controls">
-      <div class="sync-title">
-        Subtitle Sync
-        <span class="sync-subtitle">Remote: 0 (Delay), 8 (Advance)</span>
+    <!-- TAB: PLAYER -->
+    <div id="tab-player" style="display:none">
+      <div class="video-wrapper">
+        <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" data-setup='{"fluid":true}'>
+          <source src="/movie1.mp4" type="video/mp4" />
+          <p class="vjs-no-js">Enable JavaScript to watch the video.</p>
+        </video>
       </div>
-      <div class="sync-actions">
-        <button class="sync-btn" onclick="shiftSubtitles(-100)">0 (-100ms)</button>
-        <div id="syncDisplay" class="sync-val">0 ms</div>
-        <button class="sync-btn" onclick="shiftSubtitles(100)">8 (+100ms)</button>
+
+      <!-- Subtitle Sync Controls -->
+      <div class="sync-controls">
+        <div class="sync-title">
+          Subtitle Sync
+          <span class="sync-subtitle">Remote: 0 (Delay), 8 (Advance)</span>
+        </div>
+        <div class="sync-actions">
+          <button class="sync-btn" onclick="shiftSubtitles(-100)">0 (-100ms)</button>
+          <div id="syncDisplay" class="sync-val">0 ms</div>
+          <button class="sync-btn" onclick="shiftSubtitles(100)">8 (+100ms)</button>
+        </div>
+      </div>
+
+      <!-- Subtitle Style Controls -->
+      <div class="sync-controls">
+        <div class="sync-title">
+          Subtitle Customizer
+          <span class="sync-subtitle">Size: 4/6 | Up/Down: 2/5 | Gap: 1/3</span>
+        </div>
+        <div class="sync-actions">
+          <button class="sync-btn" onclick="changeSubGap(-0.05)">- Gap (1)</button>
+          <button class="sync-btn" onclick="changeSubGap(0.05)">+ Gap (3)</button>
+          <button class="sync-btn" onclick="changeSubSize(-0.1)">- Size (4)</button>
+          <button class="sync-btn" onclick="changeSubSize(0.1)">+ Size (6)</button>
+          <button class="sync-btn" onclick="changeSubPos(-15)">Up (2)</button>
+          <button class="sync-btn" onclick="changeSubPos(15)">Down (5)</button>
+        </div>
       </div>
     </div>
 
-    <!-- Subtitle Style UI (Size, Pos, & Gap) -->
-    <div class="sync-controls">
-      <div class="sync-title">
-        Subtitle Appearance
-        <span class="sync-subtitle">Size: 4/6 | Up/Down: 2/5 | Line Gap: 1/3</span>
-      </div>
-      <div class="sync-actions">
-        <!-- Gap Controls -->
-        <button class="sync-btn" onclick="changeSubGap(-0.05)">- Gap (1)</button>
-        <button class="sync-btn" onclick="changeSubGap(0.05)">+ Gap (3)</button>
-        
-        <!-- Size Controls -->
-        <button class="sync-btn" onclick="changeSubSize(-0.1)">- Size (4)</button>
-        <button class="sync-btn" onclick="changeSubSize(0.1)">+ Size (6)</button>
-        
-        <!-- Position Controls -->
-        <button class="sync-btn" onclick="changeSubPos(-15)">Up (2)</button>
-        <button class="sync-btn" onclick="changeSubPos(15)">Down (5)</button>
+    <!-- TAB: SETTINGS -->
+    <div id="tab-settings" style="display:none">
+      <div class="sync-controls" style="flex-direction:column;align-items:flex-start">
+        <div class="sync-title" style="font-size:1.1rem;margin-bottom:8px">Cloudstream Extension Settings</div>
+        <p style="color:var(--text-muted);font-size:0.85rem;margin:0 0 12px 0">Default provider source path for movie streams:</p>
+        <div style="display:flex;gap:10px;width:100%">
+          <input type="text" value="https://suz41.github.io/ZP/" style="flex:1;background:var(--bg);border:1px solid var(--border);color:#fff;padding:8px 12px;border-radius:6px" readonly />
+          <button class="sync-btn" style="background:var(--accent)" onclick="showToast('Repository Loaded')">Reload Repo</button>
+        </div>
       </div>
     </div>
-
-    <section class="episodes">
-      <div class="episodes-header"><div style="font-weight:600">Episodes</div><div style="color:var(--text-muted)">Season 5</div></div>
-      <div id="episodesList" style="padding:8px"></div>
-    </section>
   </main>
 
   <!-- Displays -->
   <div id="toast" class="toast" aria-hidden="true"></div>
   <div id="tvOsd" class="tv-osd" aria-hidden="true"></div>
-  
-  <footer>Made by SuzalPins</footer>
+
+  <footer>Cloudstream UI • Powered by SuzalPins</footer>
 
   <script src="https://vjs.zencdn.net/8.23.4/video.min.js"></script>
   <script src="script.js"></script>
