@@ -1,13 +1,13 @@
 // episodes (8 movies)
 const episodes = [
-  { title:"Tu.Yaa.Main", desc:"The Spirit of the Beehive", time:"1h31m", src:"/Tu.Yaa.Main.2026.1080p.NF.WEB-DL.Hindi.DDP5.1.ESub.x264-HDHub4u.Ms.mp4", cc:"/Tu.Yaa.Main.2026.1080p.NF.WEB-DL.Hindi.DDP5.1.ESub.x264-HDHub4u.Ms.vtt" },
-  { title:"John Wick 2014", desc:"Bhagyalakshmi", time:"1h57m", src:"/John Wick 2014.mp4", cc:"/John Wick 2014.vtt" },
-  { title:"Sadak1991", desc:"", time:"1h49m", src:"/Sadak1991.mp4", cc:"Sadak1991.vtt" },
-  { title:"The Chronicles of Narnia - The Lion the Witch and the Wardrobe", desc:"A.Real.Pain", time:"1h26m", src:"/movie2.mp4", cc:"/movie2.vtt" },
-  { title:"ABCD (2013)", desc:"La Haine", time:"1h38m", src:"/movie3.mp4", cc:"movie3.vtt" },
-  { title:"Harry Potter and the Deathly Hallows Part 2", desc:"Fallen Angels", time:"1h39m", src:"/movie4.mp4", cc:"movie4.vtt" },
-  { title:"Jugnuma.The.Fable.2025", desc:"Oldboy", time:"2h00m", src:"/Jugnuma.The.Fable.2025.mp4", cc:"/[SubtitleTools.com] Jugnuma.The.Fable.2025.1080p.Hindi.WEB-DL.5.1.ESub.x264-HDHub4u.Ms.mkv3.vtt" },
-  { title:"Harry Potter and the Deathly Hallows - Part II", desc:"Children of Men", time:"1h49m", src:"/Harry Potter and the Deathly Hallows - Part II.mp4", cc:"/[SubtitleTools.com] Harry Potter and the Deathly Hallows - Part II 2011 1080p Open-Matte DS4K SDR 10bit WEBRip [Hindi DDP 5.1 + English DDP 5.1] MSubs PeruGuy-4kHdHub.mkv6.vtt" }
+  { title:"Tu.Yaa.Main", desc:"The Spirit of the Beehive", time:"1h31m", src:"/movie1.mp4", cc:"/movie1.vtt" },
+  { title:"John Wick 2014", desc:"Bhagyalakshmi", time:"1h57m", src:"/movie2.mp4", cc:"/movie2.vtt" },
+  { title:"Sadak1991", desc:"", time:"1h49m", src:"/movie3.mp4", cc:"/movie3.vtt" },
+  { title:"The Chronicles of Narnia", desc:"The Lion the Witch and the Wardrobe", time:"1h26m", src:"/movie4.mp4", cc:"/movie4.vtt" },
+  { title:"ABCD (2013)", desc:"La Haine", time:"1h38m", src:"/movie5.mp4", cc:"/movie5.vtt" },
+  { title:"Harry Potter and the Deathly Hallows Part 2", desc:"Fallen Angels", time:"1h39m", src:"/movie6.mp4", cc:"/movie6.vtt" },
+  { title:"Jugnuma.The.Fable.2025", desc:"Oldboy", time:"2h00m", src:"/movie7.mp4", cc:"/movie7.vtt" },
+  { title:"Harry Potter and the Deathly Hallows - Part II", desc:"Children of Men", time:"1h49m", src:"/movie8.mp4", cc:"/movie8.vtt" }
 ];
 
 const K_EP="st5_current_episode";
