@@ -96,18 +96,26 @@ function handleSearch(query) {
     `;
 
     card.addEventListener("click", () => {
-      if (item.src) {
-        showTab('player');
-        player.pause();
-        const isMkv = item.src.toLowerCase().includes('.mkv');
+      const streamUrl = item.src || item.url;
+      const customInput = document.getElementById('customUrlInput');
+      
+      if (customInput && streamUrl && (streamUrl.startsWith('http') || streamUrl.startsWith('/'))) {
+        customInput.value = streamUrl;
+      }
+
+      showTab('player');
+      player.pause();
+
+      if (streamUrl && (streamUrl.startsWith('http') || streamUrl.startsWith('/'))) {
+        const isMkv = streamUrl.toLowerCase().includes('.mkv');
         const isTizen = /Tizen/i.test(navigator.userAgent);
         const mimeType = isMkv ? (isTizen ? 'video/mp4' : 'video/x-matroska') : 'video/mp4';
-        player.src({ type: mimeType, src: item.src });
+        player.src({ type: mimeType, src: streamUrl });
         player.play();
         showTvOsd(`Playing: ${title}`);
       } else {
-        showToast(`Extension: ${title}`);
-        showTvOsd(`Extension: ${title}`);
+        showToast(`Selected: ${title}`);
+        showTvOsd(`Provider: ${title}`);
       }
     });
 
