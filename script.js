@@ -223,6 +223,33 @@ function handleKey(e){
   const code = e.keyCode || e.which || 0;
   const key = (e.key || "").toString();
 
+  // Left Arrow (37) / Right Arrow (39) / D-pad Seek (10s backward / forward)
+  if (code === 37 || key === "ArrowLeft" || key === "j" || key === "J") {
+    e.preventDefault();
+    const cur = player.currentTime() || 0;
+    player.currentTime(Math.max(0, cur - 10));
+    showTvOsd("⏪ -10s");
+    return;
+  }
+  if (code === 39 || key === "ArrowRight" || key === "l" || key === "L") {
+    e.preventDefault();
+    const cur = player.currentTime() || 0;
+    const dur = player.duration() || 0;
+    player.currentTime(Math.min(dur, cur + 10));
+    showTvOsd("⏩ +10s");
+    return;
+  }
+
+  // Space / Enter / OK button Play-Pause toggle
+  if (code === 32 || code === 13 || key === " " || key === "Enter") {
+    if (document.getElementById('tab-player').style.display !== 'none') {
+      e.preventDefault();
+      if (player.paused()) { player.play(); showTvOsd("▶ Play"); }
+      else { player.pause(); showTvOsd("⏸ Pause"); }
+      return;
+    }
+  }
+
   if(key === "8" || code === 56){ e.preventDefault(); shiftSubtitles(100); return; }
   if(key === "0" || code === 48){ e.preventDefault(); shiftSubtitles(-100); return; }
   if(key === "1" || code === 49){ e.preventDefault(); changeSubGap(-0.05); return; }
