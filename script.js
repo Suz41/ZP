@@ -189,7 +189,8 @@ function loadEpisode(index, resume=true){
 
   const ep = episodes[index];
   player.pause();
-  player.src({type:"video/mp4", src:ep.src});
+  const mimeType = ep.src.endsWith(".mkv") ? "video/x-matroska" : "video/mp4";
+  player.src({type: mimeType, src: ep.src});
   addSubtitles(ep.cc);
 
   player.one("loadedmetadata", () => {
