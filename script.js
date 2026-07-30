@@ -418,4 +418,5 @@ window.addEventListener("keydown", handleKey);
 window.addEventListener("load", () => {
   applySubtitleStyle();
   buildGrid();
+  loadRepoFromInput();
 });
