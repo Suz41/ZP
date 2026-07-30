@@ -68,10 +68,12 @@ function playCustomUrl() {
   showTab('player');
   player.pause();
   const isMkv = url.toLowerCase().includes('.mkv');
-  const mimeType = isMkv ? 'video/x-matroska' : 'video/mp4';
+  // Samsung Tizen compatibility fallback
+  const isTizen = /Tizen/i.test(navigator.userAgent);
+  const mimeType = isMkv ? (isTizen ? 'video/mp4' : 'video/x-matroska') : 'video/mp4';
   player.src({ type: mimeType, src: url });
   player.play();
-  showTvOsd(isMkv ? "Streaming MKV..." : "Streaming MP4...");
+  showTvOsd(isMkv ? "Streaming MKV (Tizen mode)..." : "Streaming MP4...");
 }
 
 function showToast(text, ms=1200){
