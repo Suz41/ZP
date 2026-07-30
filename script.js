@@ -251,6 +251,37 @@ function handleKey(e){
     }
   }
 
+  // Subtitle Toggle key (Tizen Subtitle/Caption 10221, "c", "C")
+  if (code === 10221 || key === "c" || key === "C" || key === "Subtitle") {
+    e.preventDefault();
+    const tracks = player.textTracks();
+    if (tracks && tracks.length) {
+      let showing = false;
+      for (let i = 0; i < tracks.length; i++) {
+        if (tracks[i].kind === "subtitles" || tracks[i].kind === "captions") {
+          if (tracks[i].mode === "showing") { tracks[i].mode = "hidden"; }
+          else { tracks[i].mode = "showing"; showing = true; }
+        }
+      }
+      showTvOsd(showing ? "💬 Subtitles ON" : "💬 Subtitles OFF");
+    } else {
+      showTvOsd("No Subtitles Found");
+    }
+    return;
+  }
+
+  // D-pad Up (38) / Down (40) for Subtitle Position adjustment
+  if (code === 38 || key === "ArrowUp") {
+    e.preventDefault();
+    changeSubPos(-15);
+    return;
+  }
+  if (code === 40 || key === "ArrowDown") {
+    e.preventDefault();
+    changeSubPos(15);
+    return;
+  }
+
   if(key === "8" || code === 56){ e.preventDefault(); shiftSubtitles(100); return; }
   if(key === "0" || code === 48){ e.preventDefault(); shiftSubtitles(-100); return; }
   if(key === "1" || code === 49){ e.preventDefault(); changeSubGap(-0.05); return; }
