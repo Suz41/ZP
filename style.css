@@ -12,38 +12,40 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 12px;
-  font-family: -apple-system, BlinkMacSystemFont,  Segoe UI, Roboto, sans-serif;
+  padding: 24px 16px;
+  font-family: -apple-system, BlinkMacSystemFont,  SF Pro Text, Segoe UI, Roboto, sans-serif;
 }
 
 .app-header {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .app-header h1 {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: -0.02em;
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 .mobile-frame {
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  column-gap: 6px;
+  row-gap: 12px;
   width: 100%;
+  align-items: start;
 }
 
 .movie-item {
@@ -51,8 +53,8 @@ body {
   flex-direction: column;
   cursor: pointer;
   user-select: none;
-  position: relative;
   width: 100%;
+  min-width: 0;
 }
 
 .poster-card {
@@ -63,11 +65,11 @@ body {
   border-radius: 4px;
   background-color: #111111;
   border: 1px solid #222222;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #555555;
+  color: #444444;
   font-size: 0.7rem;
   font-weight: 600;
   transition: transform 0.15s ease, border-color 0.15s ease;
@@ -75,70 +77,75 @@ body {
 
 .movie-item:active .poster-card,
 .movie-item:hover .poster-card {
-  transform: scale(0.96);
+  transform: scale(0.95);
   border-color: #ffffff;
 }
 
 .movie-item.selected .poster-card {
   border: 2px solid #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
 }
 
 .movie-details {
-  margin-top: 4px;
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
+  min-width: 0;
+  width: 100%;
 }
 
 .movie-title {
   color: #ffffff;
   font-size: 0.6rem;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
+  display: block;
 }
 
 .rating-number {
-  color: #888888;
+  color: #777777;
   font-size: 0.55rem;
   font-weight: 500;
 }
 
 .editor-panel {
   width: 100%;
-  background: #0a0a0a;
+  background: #080808;
   border: 1px solid #222222;
   border-radius: 8px;
-  padding: 12px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .editor-title {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #888888;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .input-group {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 input {
   background: #111111;
-  border: 1px solid #333333;
+  border: 1px solid #282828;
   border-radius: 4px;
   color: #ffffff;
-  padding: 7px 10px;
+  padding: 8px 12px;
   font-size: 0.8rem;
   outline: none;
+  transition: border-color 0.15s ease;
 }
 
 input:focus {
@@ -150,31 +157,45 @@ input:focus {
   color: #000000;
   border: none;
   border-radius: 4px;
-  padding: 7px 12px;
+  padding: 8px 14px;
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.15s ease, transform 0.1s ease;
+  transition: background 0.15s ease, opacity 0.15s ease;
   white-space: nowrap;
 }
 
 .btn:hover {
-  background: #e5e5e5;
-  transform: translateY(-1px);
+  background: #e0e0e0;
 }
 
 .search-results {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   overflow-x: auto;
-  padding: 2px 0 6px;
+  padding: 4px 0 8px;
   scrollbar-width: thin;
-  min-height: 70px;
+  scrollbar-color: #333333 #080808;
+  min-height: 86px;
   align-items: center;
+}
+
+.search-results::-webkit-scrollbar {
+  height: 4px;
+}
+
+.search-results::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 2px;
 }
 
 .search-result-card, .poster-thumb {
   flex: 0 0 54px;
+  width: 54px;
   aspect-ratio: 2 / 3;
   border-radius: 4px;
   background-size: cover;
