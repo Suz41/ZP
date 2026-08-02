@@ -3,8 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZP</title>
+  <title>ZP - Grid</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0f0f13;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .grid-card {
+      aspect-ratio: 2 / 3;
+      background: linear-gradient(145deg, #1e1e26, #14141a);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 600;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.12), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .grid-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(99, 102, 241, 0.2);
+    }
+
+    .grid-card:hover::before {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
+  <main class="grid-container">
+    <div class="grid-card">1</div>
+    <div class="grid-card">2</div>
+    <div class="grid-card">3</div>
+    <div class="grid-card">4</div>
+    <div class="grid-card">5</div>
+    <div class="grid-card">6</div>
+    <div class="grid-card">7</div>
+    <div class="grid-card">8</div>
+    <div class="grid-card">9</div>
+    <div class="grid-card">10</div>
+    <div class="grid-card">11</div>
+    <div class="grid-card">12</div>
+    <div class="grid-card">13</div>
+    <div class="grid-card">14</div>
+    <div class="grid-card">15</div>
+    <div class="grid-card">16</div>
+    <div class="grid-card">17</div>
+    <div class="grid-card">18</div>
+    <div class="grid-card">19</div>
+    <div class="grid-card">20</div>
+  </main>
 </body>
 </html>
