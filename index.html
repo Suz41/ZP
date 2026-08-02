@@ -1,10 +1,244 @@
 <!DOCTYPE html>
-<html lang=en>
+<html lang= en>
 <head>
   <meta charset=UTF-8>
-  <meta name=viewport content=width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no>
+  <meta name=viewport content=width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=no>
   <title>Top 10 Watches of Advik from July</title>
-  <link rel=stylesheet href=style.css>
+  <style>
+    * {
+      box-sizing: border-box !important;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #000000;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 12px;
+    }
+
+    .app-stage {
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .header-section {
+      text-align: center;
+      width: 100%;
+    }
+
+    .main-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    /* 5x2 Main Grid - Table Layout guarantees exact 5 columns with zero CSS grid bugs */
+    .grid-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 6px 10px;
+      table-layout: fixed;
+    }
+
+    .grid-table td {
+      width: 20%;
+      vertical-align: top;
+      padding: 0;
+    }
+
+    .movie-card {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .poster-box {
+      width: 100%;
+      height: 0;
+      padding-bottom: 150%; /* 2:3 Aspect Ratio */
+      border-radius: 6px;
+      background: #111111;
+      border: 1px solid #222222;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+      transition: transform 0.15s ease;
+    }
+
+    .poster-box img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block;
+    }
+
+    .poster-fallback {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #555555;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: #18181b;
+    }
+
+    .movie-card:hover .poster-box,
+    .movie-card:active .poster-box {
+      transform: scale(0.96);
+    }
+
+    .movie-card.selected .poster-box {
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+    }
+
+    .movie-info {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .movie-title {
+      color: #ffffff;
+      font-size: 0.6rem;
+      font-weight: 600;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    .rating-text {
+      color: #888888;
+      font-size: 0.55rem;
+      font-weight: 500;
+    }
+
+    /* Editor Panel */
+    .editor-panel {
+      width: 100%;
+      background: #0a0a0a;
+      border: 1px solid #222222;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .editor-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 6px;
+      width: 100%;
+    }
+
+    input {
+      flex: 1;
+      background: #111111;
+      border: 1px solid #333333;
+      border-radius: 4px;
+      color: #ffffff;
+      padding: 7px 10px;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #ffffff;
+    }
+
+    .btn {
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 4px;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: #e5e5e5;
+    }
+
+    /* Custom Posters Grid Table (5 columns) */
+    .poster-grid-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 4px 6px;
+      table-layout: fixed;
+      margin-top: 4px;
+    }
+
+    .poster-grid-table td {
+      width: 20%;
+      vertical-align: top;
+      padding: 0;
+    }
+
+    .poster-thumb {
+      width: 100%;
+      height: 0;
+      padding-bottom: 150%;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #222222;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s ease;
+      background-color: #111111;
+    }
+
+    .poster-thumb img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block;
+    }
+
+    .poster-thumb:hover {
+      transform: scale(1.06);
+    }
+  </style>
 </head>
 <body>
   <div class=app-stage>
@@ -14,8 +248,8 @@
       <h1 class=main-title>Top 10 Watches of Advik from July</h1>
     </header>
 
-    <!-- 5x2 Grid View -->
-    <main class=grid-container id=grid></main>
+    <!-- 5x2 Table Grid View -->
+    <div id=grid-container></div>
 
     <!-- Drawer Editor for Customizing Posters & Ratings -->
     <div class=editor-panel>
@@ -26,7 +260,7 @@
         <button class=btn id=search-btn>Search</button>
       </div>
 
-      <div id=results-container class=search-results></div>
+      <div id=results-container></div>
 
       <div class=input-group>
         <input type=number id=rating-input step=0.1 min=0 max=5 placeholder=Score out of 5>
