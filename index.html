@@ -86,6 +86,13 @@
       height: 100% !important;
       object-fit: cover !important;
       display: block;
+      pointer-events: none;
+    }
+
+    .movie-card.selected-card {
+      outline: 2px solid #3b82f6;
+      outline-offset: -2px;
+      opacity: 0.6;
     }
   </style>
 </head>
@@ -161,6 +168,10 @@
     let draggedBox = null;
     let dragSrcCard = null;
     let dragClone = null;
+    let touchTimer = null;
+    let isDraggingMobile = false;
+    let startTouchX = 0;
+    let startTouchY = 0;
 
     function swapPosters(srcBox, targetBox) {
       if (srcBox && targetBox && srcBox !== targetBox) {
@@ -182,7 +193,7 @@
         }
       });
 
-      card.addEventListener('dragend', e => {
+      card.addEventListener('dragend', () => {
         draggedBox = null;
       });
 
@@ -197,48 +208,84 @@
         swapPosters(draggedBox, targetBox);
       });
 
-      // --- Mobile Touch Drag & Drop ---
+      // Prevent context menu popups on long press
+      card.addEventListener('contextmenu', e => e.preventDefault());
+
+      // --- Mobile Long Press Drag & Drop ---
       card.addEventListener('touchstart', e => {
         const touch = e.touches[0];
+        startTouchX = touch.clientX;
+        startTouchY = touch.clientY;
         dragSrcCard = card;
         draggedBox = card.querySelector('.poster-box');
+        isDraggingMobile = false;
 
-        // Create visual clone for drag feedback
-        const rect = card.getBoundingClientRect();
-        dragClone = card.cloneNode(true);
-        dragClone.style.position = 'fixed';
-        dragClone.style.left = rect.left + 'px';
-        dragClone.style.top = rect.top + 'px';
-        dragClone.style.width = rect.width + 'px';
-        dragClone.style.height = rect.height + 'px';
-        dragClone.style.opacity = '0.8';
-        dragClone.style.pointerEvents = 'none';
-        dragClone.style.zIndex = '9999';
-        dragClone.style.transform = 'scale(1.05)';
-        dragClone.style.boxShadow = '0 8px 16px rgba(0,0,0,0.5)';
-        document.body.appendChild(dragClone);
+        // Initiate 200ms Long-Press Timer
+        touchTimer = setTimeout(() => {
+          isDraggingMobile = true;
+          dragSrcCard.classList.add('selected-card');
 
-        card.style.opacity = '0.4';
+          // Create floating clone visual under finger
+          const rect = card.getBoundingClientRect();
+          dragClone = card.cloneNode(true);
+          dragClone.classList.remove('selected-card');
+          dragClone.style.position = 'fixed';
+          dragClone.style.left = rect.left + 'px';
+          dragClone.style.top = rect.top + 'px';
+          dragClone.style.width = rect.width + 'px';
+          dragClone.style.height = rect.height + 'px';
+          dragClone.style.opacity = '0.9';
+          dragClone.style.pointerEvents = 'none';
+          dragClone.style.zIndex = '99999';
+          dragClone.style.transform = 'scale(1.1)';
+          dragClone.style.boxShadow = '0 12px 24px rgba(0,0,0,0.6)';
+          dragClone.style.transition = 'transform 0.1s ease, box-shadow 0.1s ease';
+          document.body.appendChild(dragClone);
+
+          // Haptic feedback vibration if supported
+          if (navigator.vibrate) {
+            navigator.vibrate(40);
+          }
+        }, 200);
       }, { passive: true });
 
       card.addEventListener('touchmove', e => {
-        if (!dragClone) return;
-        if (e.cancelable) e.preventDefault(); // Prevent scrolling while dragging
-
         const touch = e.touches[0];
-        const rect = dragClone.getBoundingClientRect();
-        dragClone.style.left = (touch.clientX - rect.width / 2) + 'px';
-        dragClone.style.top = (touch.clientY - rect.height / 2) + 'px';
+
+        // If moved significantly before long-press activates, cancel timer to allow normal page scrolling
+        if (!isDraggingMobile) {
+          const moveX = Math.abs(touch.clientX - startTouchX);
+          const moveY = Math.abs(touch.clientY - startTouchY);
+          if (moveX > 8 || moveY > 8) {
+            clearTimeout(touchTimer);
+            touchTimer = null;
+          }
+          return;
+        }
+
+        // Long press active: lock scrolling & update floating clone position
+        if (e.cancelable) e.preventDefault();
+
+        if (dragClone) {
+          const rect = dragClone.getBoundingClientRect();
+          dragClone.style.left = (touch.clientX - rect.width / 2) + 'px';
+          dragClone.style.top = (touch.clientY - rect.height / 2) + 'px';
+        }
       }, { passive: false });
 
       card.addEventListener('touchend', e => {
+        clearTimeout(touchTimer);
+        touchTimer = null;
+
         if (dragSrcCard) {
-          dragSrcCard.style.opacity = '1';
+          dragSrcCard.classList.remove('selected-card');
         }
-        if (dragClone) {
+
+        if (isDraggingMobile && dragClone) {
           const touch = e.changedTouches[0];
-          // Find element under touch point
-          dragClone.style.display = 'none'; // hide temporarily to get target behind it
+
+          // Hide clone temporarily to find element underneath finger
+          dragClone.style.display = 'none';
           const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
           dragClone.remove();
           dragClone = null;
@@ -251,6 +298,18 @@
             }
           }
         }
+
+        isDraggingMobile = false;
+        dragSrcCard = null;
+        draggedBox = null;
+      });
+
+      card.addEventListener('touchcancel', () => {
+        clearTimeout(touchTimer);
+        touchTimer = null;
+        if (dragSrcCard) dragSrcCard.classList.remove('selected-card');
+        if (dragClone) dragClone.remove();
+        isDraggingMobile = false;
         dragSrcCard = null;
         draggedBox = null;
       });
