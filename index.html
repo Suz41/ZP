@@ -159,13 +159,23 @@
 
   <script>
     let draggedBox = null;
+    let dragSrcCard = null;
+    let dragClone = null;
 
+    function swapPosters(srcBox, targetBox) {
+      if (srcBox && targetBox && srcBox !== targetBox) {
+        const tempHTML = srcBox.innerHTML;
+        srcBox.innerHTML = targetBox.innerHTML;
+        targetBox.innerHTML = tempHTML;
+      }
+    }
+
+    // --- Desktop Drag & Drop ---
     document.querySelectorAll('.movie-card').forEach(card => {
       card.addEventListener('dragstart', e => {
         draggedBox = card.querySelector('.poster-box');
         e.dataTransfer.effectAllowed = 'move';
         
-        // Remove browser black/grey default drag shadow background tint
         const img = card.querySelector('img');
         if (img) {
           e.dataTransfer.setDragImage(img, img.offsetWidth / 2, img.offsetHeight / 2);
@@ -184,11 +194,65 @@
       card.addEventListener('drop', e => {
         e.preventDefault();
         const targetBox = card.querySelector('.poster-box');
-        if (draggedBox && targetBox && draggedBox !== targetBox) {
-          const tempHTML = draggedBox.innerHTML;
-          draggedBox.innerHTML = targetBox.innerHTML;
-          targetBox.innerHTML = tempHTML;
+        swapPosters(draggedBox, targetBox);
+      });
+
+      // --- Mobile Touch Drag & Drop ---
+      card.addEventListener('touchstart', e => {
+        const touch = e.touches[0];
+        dragSrcCard = card;
+        draggedBox = card.querySelector('.poster-box');
+
+        // Create visual clone for drag feedback
+        const rect = card.getBoundingClientRect();
+        dragClone = card.cloneNode(true);
+        dragClone.style.position = 'fixed';
+        dragClone.style.left = rect.left + 'px';
+        dragClone.style.top = rect.top + 'px';
+        dragClone.style.width = rect.width + 'px';
+        dragClone.style.height = rect.height + 'px';
+        dragClone.style.opacity = '0.8';
+        dragClone.style.pointerEvents = 'none';
+        dragClone.style.zIndex = '9999';
+        dragClone.style.transform = 'scale(1.05)';
+        dragClone.style.boxShadow = '0 8px 16px rgba(0,0,0,0.5)';
+        document.body.appendChild(dragClone);
+
+        card.style.opacity = '0.4';
+      }, { passive: true });
+
+      card.addEventListener('touchmove', e => {
+        if (!dragClone) return;
+        if (e.cancelable) e.preventDefault(); // Prevent scrolling while dragging
+
+        const touch = e.touches[0];
+        const rect = dragClone.getBoundingClientRect();
+        dragClone.style.left = (touch.clientX - rect.width / 2) + 'px';
+        dragClone.style.top = (touch.clientY - rect.height / 2) + 'px';
+      }, { passive: false });
+
+      card.addEventListener('touchend', e => {
+        if (dragSrcCard) {
+          dragSrcCard.style.opacity = '1';
         }
+        if (dragClone) {
+          const touch = e.changedTouches[0];
+          // Find element under touch point
+          dragClone.style.display = 'none'; // hide temporarily to get target behind it
+          const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
+          dragClone.remove();
+          dragClone = null;
+
+          if (targetEl) {
+            const targetCard = targetEl.closest('.movie-card');
+            if (targetCard && targetCard !== dragSrcCard) {
+              const targetBox = targetCard.querySelector('.poster-box');
+              swapPosters(draggedBox, targetBox);
+            }
+          }
+        }
+        dragSrcCard = null;
+        draggedBox = null;
       });
     });
   </script>
