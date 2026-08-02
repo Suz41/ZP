@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZP - Grid</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ZP - Mobile Grid</title>
   <style>
     * {
       box-sizing: border-box;
@@ -13,84 +13,83 @@
 
     body {
       min-height: 100vh;
-      background: #0f0f13;
+      background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 2rem;
-      font-family: system-ui, -apple-system, sans-serif;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* Mobile Viewport Simulation Container */
+    .mobile-frame {
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .grid-container {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(4, 1fr);
-      gap: 1.5rem;
+      gap: 8px;
       width: 100%;
-      max-width: 1100px;
     }
 
     .grid-card {
       aspect-ratio: 2 / 3;
-      background: linear-gradient(145deg, #1e1e26, #14141a);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
+      background: #1c1c1e;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.6);
       font-weight: 600;
-      font-size: 1.25rem;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 0.85rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      transition: all 0.2s ease;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
+      user-select: none;
     }
 
-    .grid-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.12), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
+    .grid-card:active,
     .grid-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      border-color: rgba(255, 255, 255, 0.25);
+      transform: scale(0.95);
+      background: #2c2c2e;
+      border-color: rgba(255, 255, 255, 0.3);
       color: #fff;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(99, 102, 241, 0.2);
-    }
-
-    .grid-card:hover::before {
-      opacity: 1;
     }
   </style>
 </head>
 <body>
-  <main class="grid-container">
-    <div class="grid-card">1</div>
-    <div class="grid-card">2</div>
-    <div class="grid-card">3</div>
-    <div class="grid-card">4</div>
-    <div class="grid-card">5</div>
-    <div class="grid-card">6</div>
-    <div class="grid-card">7</div>
-    <div class="grid-card">8</div>
-    <div class="grid-card">9</div>
-    <div class="grid-card">10</div>
-    <div class="grid-card">11</div>
-    <div class="grid-card">12</div>
-    <div class="grid-card">13</div>
-    <div class="grid-card">14</div>
-    <div class="grid-card">15</div>
-    <div class="grid-card">16</div>
-    <div class="grid-card">17</div>
-    <div class="grid-card">18</div>
-    <div class="grid-card">19</div>
-    <div class="grid-card">20</div>
-  </main>
+  <div class="mobile-frame">
+    <main class="grid-container">
+      <div class="grid-card">1</div>
+      <div class="grid-card">2</div>
+      <div class="grid-card">3</div>
+      <div class="grid-card">4</div>
+      <div class="grid-card">5</div>
+      <div class="grid-card">6</div>
+      <div class="grid-card">7</div>
+      <div class="grid-card">8</div>
+      <div class="grid-card">9</div>
+      <div class="grid-card">10</div>
+      <div class="grid-card">11</div>
+      <div class="grid-card">12</div>
+      <div class="grid-card">13</div>
+      <div class="grid-card">14</div>
+      <div class="grid-card">15</div>
+      <div class="grid-card">16</div>
+      <div class="grid-card">17</div>
+      <div class="grid-card">18</div>
+      <div class="grid-card">19</div>
+      <div class="grid-card">20</div>
+    </main>
+  </div>
 </body>
 </html>
