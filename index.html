@@ -87,13 +87,24 @@
       object-fit: cover !important;
       display: block;
     }
+    .watermark {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: #555555;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: center;
+      margin-top: 4px;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
-  <div class=app-stage>
+  <div class="app-stage">
     
     <!-- Title -->
-    <header class=header-section>
+    <header class="header-section">
       <h1 class="main-title">Advik's Top 10 Movie Watches of July</h1>
     </header>
 
@@ -154,6 +165,9 @@
         </td>
       </tr>
     </table>
+
+    <!-- Subtle Letterboxd App Watermark -->
+    <div class="watermark">LETTERBOXD</div>
 
   </div>
 
