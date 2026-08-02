@@ -47,11 +47,10 @@
       letter-spacing: -0.01em;
     }
 
-    /* Clean 5x2 Table Grid */
+    /* Clean 5x2 Table Grid without gaps */
     .grid-table {
       width: 100%;
-      border-collapse: separate;
-      border-spacing: 6px 10px;
+      border-collapse: collapse;
       table-layout: fixed;
     }
 
@@ -74,10 +73,9 @@
       padding-bottom: 150%; /* 2:3 Aspect Ratio */
       border-radius: 0px;
       background: #111111;
-      border: 1px solid #222222;
+      border: 1px solid #333333;
       overflow: hidden;
       position: relative;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
     }
 
     .poster-box img {
