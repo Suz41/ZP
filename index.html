@@ -9,67 +9,28 @@
 <body>
   <div class=app-stage>
     
-    <!-- Top Minimal Navigation -->
-    <header class=navbar>
-      <div class=brand-badge>JULY RECAP</div>
-      <h1 class=main-title>TOP 10 PICKS</h1>
-      <div class=curator-tag>CURATED BY ADVIK</div>
+    <!-- Title Section -->
+    <header class=header-section>
+      <h1 class=main-title>Top 10 Picks of Advik from July</h1>
     </header>
 
-    <!-- Main Spotlight Showcase View -->
-    <section class=spotlight-section>
-      <div class=spotlight-card id=spotlight-card>
-        <div class=spotlight-poster id=spotlight-poster>
-          <div class=spotlight-rank id=spotlight-rank>#1</div>
-        </div>
-        <div class=spotlight-meta>
-          <div class=spotlight-header>
-            <h2 class=spotlight-title id=spotlight-title>Inception</h2>
-            <div class=spotlight-rating id=spotlight-rating>4.5 <span class=scale>/ 5</span></div>
-          </div>
-          <div class=spotlight-actions>
-            <button class=action-btn primary id=open-editor-btn>Customize Slot</button>
-          </div>
-        </div>
+    <!-- 5x2 Grid View -->
+    <main class=grid-container id=grid></main>
+
+    <!-- Drawer Editor for Customizing Posters & Ratings -->
+    <div class=editor-panel>
+      <div class=editor-title id=editor-heading>Tap any movie card to customize poster</div>
+      
+      <div class=input-group>
+        <input type=text id=search-input placeholder=Search film on TMDB...>
+        <button class=btn id=search-btn>Search</button>
       </div>
-    </section>
 
-    <!-- Film Strip / Reel Selector Grid -->
-    <section class=reel-section>
-      <div class=reel-header>
-        <span>FILM STRIP REEL</span>
-        <span class=reel-count>10 SLOTS</span>
-      </div>
-      <div class=reel-grid id=grid></div>
-    </section>
+      <div id=results-container class=search-results></div>
 
-    <!-- Floating Minimal Editor Drawer/Modal -->
-    <div class=editor-modal id=editor-modal>
-      <div class=editor-content>
-        <div class=editor-header>
-          <span class=editor-slot-tag id=editor-heading>EDIT SLOT #1</span>
-          <button class=close-btn id=close-editor-btn>&times;</button>
-        </div>
-        
-        <div class=editor-body>
-          <div class=field-group>
-            <label>Search TMDB Film</label>
-            <div class=input-row>
-              <input type=text id=search-input placeholder=Type movie name...>
-              <button class=btn-search id=search-btn>Search</button>
-            </div>
-          </div>
-
-          <div id=results-container class=search-carousel></div>
-
-          <div class=field-group>
-            <label>Set Score (out of 5)</label>
-            <div class=input-row>
-              <input type=number id=rating-input step=0.1 min=0 max=5 placeholder=e.g. 4.8>
-              <button class=btn-save id=save-rating-btn>Update Score</button>
-            </div>
-          </div>
-        </div>
+      <div class=input-group>
+        <input type=number id=rating-input step=0.1 min=0 max=5 placeholder=Score out of 5>
+        <button class=btn id=save-rating-btn>Set Rating / 5</button>
       </div>
     </div>
 
