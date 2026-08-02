@@ -6,7 +6,7 @@
   <title>Top 10 Watches of Advik from July</title>
   <style>
     * {
-      box-sizing: border-box !important;
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
@@ -43,7 +43,7 @@
       letter-spacing: -0.01em;
     }
 
-    /* 5x2 Main Grid - Table Layout guarantees exact 5 columns with zero CSS grid bugs */
+    /* Clean 5x2 Table Grid */
     .grid-table {
       width: 100%;
       border-collapse: separate;
@@ -61,7 +61,6 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      cursor: pointer;
       user-select: none;
     }
 
@@ -75,7 +74,6 @@
       overflow: hidden;
       position: relative;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
-      transition: transform 0.15s ease;
     }
 
     .poster-box img {
@@ -86,31 +84,6 @@
       height: 100% !important;
       object-fit: cover !important;
       display: block;
-    }
-
-    .poster-fallback {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #555555;
-      font-size: 0.8rem;
-      font-weight: 700;
-      background: #18181b;
-    }
-
-    .movie-card:hover .poster-box,
-    .movie-card:active .poster-box {
-      transform: scale(0.96);
-    }
-
-    .movie-card.selected .poster-box {
-      border: 2px solid #ffffff;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
     }
 
     .movie-info {
@@ -138,138 +111,114 @@
       font-size: 0.55rem;
       font-weight: 500;
     }
-
-    /* Editor Panel */
-    .editor-panel {
-      width: 100%;
-      background: #0a0a0a;
-      border: 1px solid #222222;
-      border-radius: 8px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .editor-title {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .input-group {
-      display: flex;
-      gap: 6px;
-      width: 100%;
-    }
-
-    input {
-      flex: 1;
-      background: #111111;
-      border: 1px solid #333333;
-      border-radius: 4px;
-      color: #ffffff;
-      padding: 7px 10px;
-      font-size: 0.8rem;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #ffffff;
-    }
-
-    .btn {
-      background: #ffffff;
-      color: #000000;
-      border: none;
-      border-radius: 4px;
-      padding: 7px 12px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.15s ease;
-      white-space: nowrap;
-    }
-
-    .btn:hover {
-      background: #e5e5e5;
-    }
-
-    /* Custom Posters Grid Table (5 columns) */
-    .poster-grid-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 4px 6px;
-      table-layout: fixed;
-      margin-top: 4px;
-    }
-
-    .poster-grid-table td {
-      width: 20%;
-      vertical-align: top;
-      padding: 0;
-    }
-
-    .poster-thumb {
-      width: 100%;
-      height: 0;
-      padding-bottom: 150%;
-      border-radius: 4px;
-      overflow: hidden;
-      border: 1px solid #222222;
-      cursor: pointer;
-      position: relative;
-      transition: transform 0.15s ease;
-      background-color: #111111;
-    }
-
-    .poster-thumb img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-      display: block;
-    }
-
-    .poster-thumb:hover {
-      transform: scale(1.06);
-    }
   </style>
 </head>
 <body>
   <div class=app-stage>
     
-    <!-- Title Section -->
+    <!-- Title -->
     <header class=header-section>
       <h1 class=main-title>Top 10 Watches of Advik from July</h1>
     </header>
 
-    <!-- 5x2 Table Grid View -->
-    <div id=grid-container></div>
-
-    <!-- Drawer Editor for Customizing Posters & Ratings -->
-    <div class=editor-panel>
-      <div class=editor-title id=editor-heading>Tap any movie card to customize poster</div>
-      
-      <div class=input-group>
-        <input type=text id=search-input placeholder=Search film on TMDB...>
-        <button class=btn id=search-btn>Search</button>
-      </div>
-
-      <div id=results-container></div>
-
-      <div class=input-group>
-        <input type=number id=rating-input step=0.1 min=0 max=5 placeholder=Score out of 5>
-        <button class=btn id=save-rating-btn>Set Rating / 5</button>
-      </div>
-    </div>
+    <!-- Static Clean 5x2 Grid -->
+    <table class=grid-table>
+      <tr>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg alt=The Odyssey></div>
+            <div class=movie-info>
+              <div class=movie-title>The Odyssey</div>
+              <div class=rating-text>4.8 / 5</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/iPOn6DinuVyLY17YM9mKuPofV08.jpg alt=Spider-Man></div>
+            <div class=movie-info>
+              <div class=movie-title>Spider-Man</div>
+              <div class=rating-text>4.5 / 5</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/b7Dr8Chzse8VagexAporUu2RtLx.jpg alt=The Invite></div>
+            <div class=movie-info>
+              <div class=movie-title>The Invite</div>
+              <div class=rating-text>4.2 / 5</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/yE1c9hj5Hf8a9KplAdRdhADqUro.jpg alt=Good Time></div>
+            <div class=movie-info>
+              <div class=movie-title>Good Time</div>
+              <div class=rating-text>4.4 / 5</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/7yqMtaRMPgntGcDtYySv7XfTsDB.jpg alt=Blue Film></div>
+            <div class=movie-info>
+              <div class=movie-title>Blue Film</div>
+              <div class=rating-text>4.1 / 5</div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/iTNHwO896WKkaoPtpMMS74d8VNi.jpg alt=Rain Man></div>
+            <div class=movie-info>
+              <div class=movie-title>Rain Man</div>
+              <div class=rating-text>4.6 / 5</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/iNZdSIfhSCMtRILDNyhLn8UKeSG.jpg alt=13 Going on 30></div>
+            <div class=movie-info>
+              <div class=movie-title>13 Going on 30</div>
+              <div class=rating-text>4.3 / 5</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/ztadKzIIR0ERYqpHteaPFtk7inP.jpg alt=Evil Dead></div>
+            <div class=movie-info>
+              <div class=movie-title>Evil Dead</div>
+              <div class=rating-text>4.4 / 5</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/gnAsZvBygplNpp8PtjoTEYv3VPB.jpg alt=Leviticus></div>
+            <div class=movie-info>
+              <div class=movie-title>Leviticus</div>
+              <div class=rating-text>4.0 / 5</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class=movie-card>
+            <div class=poster-box><img src=https://image.tmdb.org/t/p/w500/zP19YO60jwEsfKd5Qf1UvA5uJu8.jpg alt=The Furious></div>
+            <div class=movie-info>
+              <div class=movie-title>The Furious</div>
+              <div class=rating-text>4.5 / 5</div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
 
   </div>
-
-  <script src=script.js></script>
 </body>
 </html>
