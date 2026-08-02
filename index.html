@@ -163,16 +163,22 @@
     document.querySelectorAll('.movie-card').forEach(card => {
       card.addEventListener('dragstart', e => {
         draggedBox = card.querySelector('.poster-box');
-        card.style.opacity = '0.4';
+        e.dataTransfer.effectAllowed = 'move';
+        
+        // Remove browser black/grey default drag shadow background tint
+        const img = card.querySelector('img');
+        if (img) {
+          e.dataTransfer.setDragImage(img, img.offsetWidth / 2, img.offsetHeight / 2);
+        }
       });
 
       card.addEventListener('dragend', e => {
-        card.style.opacity = '1';
         draggedBox = null;
       });
 
       card.addEventListener('dragover', e => {
         e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
       });
 
       card.addEventListener('drop', e => {
