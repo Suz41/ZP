@@ -60,7 +60,7 @@ body {
   overflow: hidden;
   position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 .poster-box img {
@@ -85,7 +85,6 @@ body {
 .movie-card:hover .poster-box,
 .movie-card:active .poster-box {
   transform: scale(0.96);
-  border-color: #ffffff;
 }
 
 .movie-card.selected .poster-box {
@@ -193,7 +192,7 @@ input:focus {
   overflow: hidden;
   border: 1px solid #222222;
   cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.15s ease;
   background-color: #111111;
 }
 
@@ -206,5 +205,4 @@ input:focus {
 
 .search-card:hover, .poster-thumb:hover {
   transform: scale(1.06);
-  border-color: #ffffff;
 }
