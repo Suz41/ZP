@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ZP - Mobile Grid</title>
+  <title>ZP - Movie Grid</title>
   <style>
     * {
       box-sizing: border-box;
@@ -23,7 +23,7 @@
 
     .mobile-frame {
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -35,23 +35,19 @@
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(2, 1fr);
-      gap: 3px;
+      gap: 4px;
       width: 100%;
     }
 
     .grid-card {
       aspect-ratio: 2 / 3;
-      background: #1c1c1e;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255, 255, 255, 0.6);
-      font-weight: 600;
-      font-size: 0.75rem;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-      transition: all 0.2s ease;
+      background-size: cover;
+      background-position: center;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s ease;
       cursor: pointer;
       user-select: none;
     }
@@ -59,25 +55,168 @@
     .grid-card:active,
     .grid-card:hover {
       transform: scale(0.96);
-      background: #2c2c2e;
-      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .rating-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      padding: 1px 4px;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      color: #ffd700;
+      font-size: 0.6rem;
+      font-weight: 700;
+    }
+
+    .rating-badge svg {
+      width: 8px;
+      height: 8px;
+      fill: #ffd700;
+    }
+
+    .movie-info {
+      position: absolute;
+      bottom: 0;
+      inset-x: 0;
+      padding: 12px 4px 4px;
+      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .movie-title {
       color: #fff;
+      font-size: 0.65rem;
+      font-weight: 600;
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
     }
   </style>
 </head>
 <body>
   <div class="mobile-frame">
     <main class="grid-container">
-      <div class="grid-card">1</div>
-      <div class="grid-card">2</div>
-      <div class="grid-card">3</div>
-      <div class="grid-card">4</div>
-      <div class="grid-card">5</div>
-      <div class="grid-card">6</div>
-      <div class="grid-card">7</div>
-      <div class="grid-card">8</div>
-      <div class="grid-card">9</div>
-      <div class="grid-card">10</div>
+      
+      <!-- Card 1 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          8.8
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Inception</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          9.0
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">The Dark Knight</div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          8.6
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Interstellar</div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          8.4
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Cyberpunk</div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          8.9
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Dune: Part Two</div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          8.5
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Gladiator II</div>
+        </div>
+      </div>
+
+      <!-- Card 7 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          8.7
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Oppenheimer</div>
+        </div>
+      </div>
+
+      <!-- Card 8 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          8.3
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">The Batman</div>
+        </div>
+      </div>
+
+      <!-- Card 9 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          8.9
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Pulp Fiction</div>
+        </div>
+      </div>
+
+      <!-- Card 10 -->
+      <div class="grid-card" style="background-image: linear-gradient(180deg, rgba(20,20,30,0.4), rgba(10,10,15,0.9)), url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=300&q=80');">
+        <div class="rating-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          9.3
+        </div>
+        <div class="movie-info">
+          <div class="movie-title">Shawshank</div>
+        </div>
+      </div>
+
     </main>
   </div>
 </body>
