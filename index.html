@@ -78,6 +78,18 @@
       position: relative;
     }
 
+    /* Dynamic card states */
+    .movie-card {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      touch-action: none;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
     .poster-box img {
       position: absolute;
       top: 0;
@@ -87,12 +99,19 @@
       object-fit: cover !important;
       display: block;
       pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
     .movie-card.selected-card {
+      opacity: 0.3;
+      transform: scale(0.92);
+    }
+
+    .movie-card.drop-target {
       outline: 2px solid #3b82f6;
       outline-offset: -2px;
-      opacity: 0.6;
+      transform: scale(1.05);
+      z-index: 10;
     }
   </style>
 </head>
@@ -170,8 +189,11 @@
     let dragClone = null;
     let touchTimer = null;
     let isDraggingMobile = false;
-    let startTouchX = 0;
-    let startTouchY = 0;
+    let currentDropTarget = null;
+    let curX = 0, curY = 0;
+    let targetX = 0, targetY = 0;
+    let cloneWidth = 0, cloneHeight = 0;
+    let animationFrameId = null;
 
     function swapPosters(srcBox, targetBox) {
       if (srcBox && targetBox && srcBox !== targetBox) {
@@ -208,111 +230,125 @@
         swapPosters(draggedBox, targetBox);
       });
 
-      // Prevent context menu popups on long press
       card.addEventListener('contextmenu', e => e.preventDefault());
 
-      // --- Mobile Long Press Drag & Drop ---
+      // --- Ultra Smooth 60fps Mobile Touch Drag & Drop ---
       card.addEventListener('touchstart', e => {
         const touch = e.touches[0];
-        startTouchX = touch.clientX;
-        startTouchY = touch.clientY;
         dragSrcCard = card;
         draggedBox = card.querySelector('.poster-box');
         isDraggingMobile = false;
 
-        // Initiate 200ms Long-Press Timer
+        const rect = card.getBoundingClientRect();
+        cloneWidth = rect.width;
+        cloneHeight = rect.height;
+        targetX = touch.clientX - cloneWidth / 2;
+        targetY = touch.clientY - cloneHeight / 2 - 20; // Slightly offset above touch point for visibility
+        curX = targetX;
+        curY = targetY;
+
+        // Long press threshold (120ms for quick responsiveness)
         touchTimer = setTimeout(() => {
           isDraggingMobile = true;
           dragSrcCard.classList.add('selected-card');
 
-          // Create floating clone visual under finger
-          const rect = card.getBoundingClientRect();
           dragClone = card.cloneNode(true);
-          dragClone.classList.remove('selected-card');
+          dragClone.classList.remove('selected-card', 'drop-target');
           dragClone.style.position = 'fixed';
-          dragClone.style.left = rect.left + 'px';
-          dragClone.style.top = rect.top + 'px';
-          dragClone.style.width = rect.width + 'px';
-          dragClone.style.height = rect.height + 'px';
-          dragClone.style.opacity = '0.9';
+          dragClone.style.left = '0px';
+          dragClone.style.top = '0px';
+          dragClone.style.transform = `translate3d(${curX}px, ${curY}px, 0) scale(1.12)`;
+          dragClone.style.width = cloneWidth + 'px';
+          dragClone.style.height = cloneHeight + 'px';
           dragClone.style.pointerEvents = 'none';
           dragClone.style.zIndex = '99999';
-          dragClone.style.transform = 'scale(1.1)';
-          dragClone.style.boxShadow = '0 12px 24px rgba(0,0,0,0.6)';
-          dragClone.style.transition = 'transform 0.1s ease, box-shadow 0.1s ease';
+          dragClone.style.boxShadow = '0 16px 32px rgba(0,0,0,0.7), 0 0 12px rgba(59,130,246,0.5)';
+          dragClone.style.borderRadius = '4px';
+          dragClone.style.willChange = 'transform';
+          dragClone.style.transition = 'none';
           document.body.appendChild(dragClone);
 
-          // Haptic feedback vibration if supported
           if (navigator.vibrate) {
-            navigator.vibrate(40);
+            navigator.vibrate(30);
           }
-        }, 200);
+
+          // Smooth 60fps Animation Loop
+          const updateClonePosition = () => {
+            if (!isDraggingMobile || !dragClone) return;
+            // Smooth interpolation (lerp)
+            curX += (targetX - curX) * 0.45;
+            curY += (targetY - curY) * 0.45;
+            dragClone.style.transform = `translate3d(${curX}px, ${curY}px, 0) scale(1.12)`;
+
+            // Highlight target cell under touch
+            dragClone.style.display = 'none';
+            const elUnderPoint = document.elementFromPoint(targetX + cloneWidth / 2, targetY + cloneHeight / 2 + 20);
+            dragClone.style.display = 'block';
+
+            if (elUnderPoint) {
+              const hoverCard = elUnderPoint.closest('.movie-card');
+              if (hoverCard !== currentDropTarget) {
+                if (currentDropTarget) currentDropTarget.classList.remove('drop-target');
+                if (hoverCard && hoverCard !== dragSrcCard) {
+                  hoverCard.classList.add('drop-target');
+                  currentDropTarget = hoverCard;
+                  if (navigator.vibrate) navigator.vibrate(10);
+                } else {
+                  currentDropTarget = null;
+                }
+              }
+            }
+
+            animationFrameId = requestAnimationFrame(updateClonePosition);
+          };
+
+          animationFrameId = requestAnimationFrame(updateClonePosition);
+        }, 120);
       }, { passive: true });
 
       card.addEventListener('touchmove', e => {
         const touch = e.touches[0];
+        targetX = touch.clientX - cloneWidth / 2;
+        targetY = touch.clientY - cloneHeight / 2 - 20;
 
-        // If moved significantly before long-press activates, cancel timer to allow normal page scrolling
-        if (!isDraggingMobile) {
-          const moveX = Math.abs(touch.clientX - startTouchX);
-          const moveY = Math.abs(touch.clientY - startTouchY);
-          if (moveX > 8 || moveY > 8) {
-            clearTimeout(touchTimer);
-            touchTimer = null;
-          }
-          return;
-        }
-
-        // Long press active: lock scrolling & update floating clone position
-        if (e.cancelable) e.preventDefault();
-
-        if (dragClone) {
-          const rect = dragClone.getBoundingClientRect();
-          dragClone.style.left = (touch.clientX - rect.width / 2) + 'px';
-          dragClone.style.top = (touch.clientY - rect.height / 2) + 'px';
+        if (isDraggingMobile) {
+          if (e.cancelable) e.preventDefault();
         }
       }, { passive: false });
 
-      card.addEventListener('touchend', e => {
+      const cleanupTouch = () => {
         clearTimeout(touchTimer);
         touchTimer = null;
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+
+        if (currentDropTarget) {
+          currentDropTarget.classList.remove('drop-target');
+        }
 
         if (dragSrcCard) {
           dragSrcCard.classList.remove('selected-card');
         }
 
         if (isDraggingMobile && dragClone) {
-          const touch = e.changedTouches[0];
-
-          // Hide clone temporarily to find element underneath finger
-          dragClone.style.display = 'none';
-          const targetEl = document.elementFromPoint(touch.clientX, touch.clientY);
+          if (currentDropTarget && currentDropTarget !== dragSrcCard) {
+            const targetBox = currentDropTarget.querySelector('.poster-box');
+            swapPosters(draggedBox, targetBox);
+          }
           dragClone.remove();
           dragClone = null;
-
-          if (targetEl) {
-            const targetCard = targetEl.closest('.movie-card');
-            if (targetCard && targetCard !== dragSrcCard) {
-              const targetBox = targetCard.querySelector('.poster-box');
-              swapPosters(draggedBox, targetBox);
-            }
-          }
         }
 
+        currentDropTarget = null;
         isDraggingMobile = false;
         dragSrcCard = null;
         draggedBox = null;
-      });
+      };
 
-      card.addEventListener('touchcancel', () => {
-        clearTimeout(touchTimer);
-        touchTimer = null;
-        if (dragSrcCard) dragSrcCard.classList.remove('selected-card');
-        if (dragClone) dragClone.remove();
-        isDraggingMobile = false;
-        dragSrcCard = null;
-        draggedBox = null;
-      });
+      card.addEventListener('touchend', cleanupTouch);
+      card.addEventListener('touchcancel', cleanupTouch);
     });
   </script>
 </body>
